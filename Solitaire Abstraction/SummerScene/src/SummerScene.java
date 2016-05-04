@@ -9,6 +9,7 @@ public class SummerScene
 		JFrame frame = new JFrame();
     	frame.setTitle("My Summer Scene");
     	frame.setSize(700, 600);
+    	frame.setPreferredSize(new Dimension(700, 600));
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	
     	Summer s = new Summer ();
@@ -19,93 +20,128 @@ public class SummerScene
 
 class Summer extends JComponent
 {
+	//WINDOW
 	private static final int WY = 25;
 	private static final int WX = 100;
 	private static final int WW = 100;
 	private static final int WH = 100;
+	
+	//DESK
 	private static final int DX = 450;
-	private static final int DY = 205;
-	private static final int DH = 100;
-	private static final int DW = 100;
+	private static final int DY = 150;
+	private static final int DH = 150;
+	private static final int DW = 125;
 	private static final int DSX = 100;
-	private static final int HY = 250;
 	private static final int DVO = 10;
-	private static final int DLOX = 10;
-	private static final int DLOY = 10;
-	private static final int DSLY = 7;
-	private static final int DLX = 7;
+	private static final int DLOX = 12;
+	private static final int DLOY = 12;
+	private static final int DLX = 10;
+	private static final double DSLOPE = (double)DH/DSX;
+	private static final int DSLY = (int)(DLX*DSLOPE);
 	private static final int DLH = 125;
-	private static final double CC = 1.2;
-	private static final Color DC = new Color(165,42,42);
+	
+	//GENERAL
+	private static final int LY = 250;
+	private static final int LX = DX + DW;
+	
+	//COLOR
+	private static final int THREE_D_COLOR = 20;
+	private static final Color DC = new Color(255,218,185);
 	//private static final int 
-	protected void paintComponent(Graphics g)
+	protected void paintComponent(Graphics g2)
 	{
-		Graphics2D g2 = (Graphics2D)g;
-		g.setColor(Color.BLUE);
+		Graphics2D g = (Graphics2D)g2;
+		int[] x = {};
+		int[] y = {};
+		//Everything
+		g.setColor(new Color(200,200,200));
 		g.fillRect(0,0,this.getWidth(),this.getHeight());
+		//Walls
+		g.setColor(new Color(242,236,148));
+		g.fillRect(0,0,this.getWidth(),LY);		
+    	x = new int[] {LX, LX, this.getWidth(), this.getWidth()};
+    	y = new int[] {LY, 0, 0, (int)(LY + (DSLOPE*(this.getWidth()-LX)))};
+    	g.fillPolygon(x,y,4);
+		//Behind Window
+		g.setColor(Color.CYAN);
+		g.fillRect(WX,WY,WW,WH);
+		//Window Outline
 		g.setColor(Color.GRAY);
-		g2.setStroke(new BasicStroke(7));
-    	g2.drawRect(WX,WY,WW,WH);
+		g.setStroke(new BasicStroke(7));
+    	g.drawRect(WX,WY,WW,WH);
+    	//Window Bars
+    	g.setStroke(new BasicStroke(1));
     	g.drawLine(WX + WW/2, WY, WX + WW/2, WY + WH);
     	g.drawLine(WX, WY + WH/2, WX + WW, WY + WH/2);
+    	//"Horizon" Line in House
     	g.setColor(Color.BLACK);
-    	g2.setStroke(new BasicStroke(1));
-    	g.drawLine(0,HY,this.getWidth(),HY);
-    	g.setColor(Color.CYAN);
-    	g.fillRect(WX+1,WY+1,WW/2-1,WH/2-1);
-    	g.fillRect(WX+WW/2+1,WY+1,WW/2-1,WH/2-1);
-    	g.fillRect(WX+1,WY+WH/2+1,WW/2-1,WH/2-1);
-    	g.fillRect(WX+WW/2+1,WY+WH/2+1,WW/2-1,WH/2-1);
+    	g.drawLine(0,LY,LX,LY);
+    	g.drawLine(LX,0,LX,LY);
+    	g.drawLine(LX,LY,this.getWidth(),(int)(LY + (DSLOPE*(this.getWidth()-LX))));
     	
-    	//START-OF-LEGS----------------------------------------------
-    	leg(g2, DLOX, DLOY);
-    	leg(g2, DW - DLOX, DLOY);
-    	leg(g2, DW + DSX - 2*DLOX, DH - DLOY);
-    	leg(g2, DSX - DLOX, DH - DLOY);
-    	//END-OF-LEGS---------------------------------------------
+    	//TABLE--------------------------------------------------
     	
+    	//LEGS
+    	leg(g, DLOX, DLOY);
+    	leg(g, DW - DLOX - 2*DLX, DLOY);
+    	leg(g, DW + DSX - DLOX - 2*DLX, DH - DLOY - DSLY);
+    	leg(g, DSX + DLOX - DLX, DH - DLOY - DSLY);
     	
-    	g2.setColor(DC);
-    	if(true)
-    	{
-    		int[] x = {DX, DX + DW, DX + DW + DSX, DX + DSX};
-    		int[] y = {DY, DY, DY + DH, DY+ DH};
-    		g2.fillPolygon(x, y, 4);
-    	}
-    	g2.setColor(b(DC));
-    	if(true)
-    	{
-    		int[] x = {DX, DX + DSX, DX + DSX, DX};
-    		int[] y = {DY, DY + DH, DY + DH + DVO, DY + DVO};
-    		g2.fillPolygon(x,y,4);
-    	}
-    	g2.setColor(d(DC));
-    	g2.fillRect(DX + DSX, DY + DH, DW, DVO);
+    	//TABLETOP
+    	g.setColor(DC);
+    	x = new int[] {DX, DX + DW, DX + DW + DSX, DX + DSX};
+    	y = new int[] {DY, DY, DY + DH, DY+ DH};
+    	g2.fillPolygon(x, y, 4);
+    	
+    	//TABLE SIDE
+    	g.setColor(br(DC));
+   		x = new int[] {DX, DX + DSX, DX + DSX, DX};
+   		y = new int[] {DY, DY + DH, DY + DH + DVO, DY + DVO};
+    	g2.fillPolygon(x,y,4);
+    	
+    	//TABLE FRONT
+    	g.setColor(d(DC));
+    	g.fillRect(DX + DSX, DY + DH, DW, DVO);
+    	
 	}
-	private void rect(Graphics2D g2, int x, int y, int w, int h, Color fill)
+	
+	private void polygon(Graphics2D g, int[] x, int[] y, Color fill)
 	{
-		g2.drawRect(x,y,w,h);
-		g2.setColor(fill);
-		g2.fillRect(x,y,w,h);
+		g.setColor(Color.BLACK);
+		g.setStroke(new BasicStroke(2));
+		g.drawPolygon(x,y,x.length);
+		g.setColor(fill);
+		g.fillPolygon(x,y,x.length);
 	}
-	private void leg(Graphics2D g2, int x, int y)
+	
+	private void rect(Graphics2D g, int x, int y, int w, int h, Color fill)
 	{
-    	g2.setColor(d(DC));
-    	g2.fillRect(DX + x + DLX, DY + y + DSLY, DLX, DLH);
-		g2.setColor(b(DC));
-    	if(true)
-    	{
-    		int[] x2 = {DX + x, DX + x + DLX, DX + x + DLX, DX + x};
-    		int[] y2 = {DY + y, DY + y + DSLY, DY + y + DLH + DSLY, DY + y + DLH};
-    		g2.fillPolygon(x2,y2,4);
-    	}
+		g.setColor(Color.BLACK);
+		g.setStroke(new BasicStroke(2));
+		g.drawRect(x,y,w,h);
+		g.setColor(fill);
+		g.fillRect(x,y,w,h);
+	}
+	private void leg(Graphics2D g, int x, int y)
+	{
+    	g.setColor(d(DC));
+    	g.fillRect(DX + x + DLX, DY + y + DSLY, DLX, DLH);
+		g.setColor(br(DC));
+		int[] x2 = {DX + x, DX + x + DLX, DX + x + DLX, DX + x};
+    	int[] y2 = {DY + y, DY + y + DSLY, DY + y + DLH + DSLY, DY + y + DLH};
+    	g.fillPolygon(x2,y2,4);
 	}
 	private Color b(Color c)
 	{
-		return new Color((int)(c.getRed()*CC),(int)(c.getGreen()*CC),(int)(c.getBlue()*CC));
+		return new Color((int)(c.getRed()+THREE_D_COLOR),(int)(c.getGreen()+THREE_D_COLOR),(int)(c.getBlue()+THREE_D_COLOR));
 	}
+	private Color br(Color c)
+	{
+		return new Color((int)(c.getRed()),(int)(c.getGreen()+THREE_D_COLOR),(int)(c.getBlue()+THREE_D_COLOR));
+	}
+	
 	private Color d(Color c)
 	{
-		return new Color((int)(c.getRed()/CC),(int)(c.getGreen()/CC),(int)(c.getBlue()/CC));
+		return new Color((int)(c.getRed()-THREE_D_COLOR),(int)(c.getGreen()-THREE_D_COLOR),(int)(c.getBlue()-THREE_D_COLOR));
 	}
 }
