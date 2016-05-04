@@ -89,7 +89,7 @@ public class SolitaireWindow extends JFrame
 		};
 		
 		panel.setLayout(null);
-		//panel.setBackground(Color.GREEN);
+		panel.setBackground(Color.GREEN);
 		setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
 		//Setup deck display JLabel
 		panel.add(deckDisplay);
