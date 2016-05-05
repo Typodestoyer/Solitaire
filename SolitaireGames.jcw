@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<workspace>
+	<settings>
+		<label>SolitaireGames</label>
+	</settings>
+	<users>
+		<user>
+			<path>SolitaireGames.jcu</path>
+		</user>
+	</users>
+	<projects>
+		<project>
+			<path>KlondikeSolitaire\KlondikeSolitaire.jcp</path>
+		</project>
+		<project>
+			<path>SummerScene\SummerScene.jcp</path>
+		</project>
+	</projects>
+</workspace>
