@@ -38,7 +38,6 @@ public class SolitaireGame
 	{
 		deck = new Deck();
 		discard = new DiscardPile();
-		System.out.println("Creating a new deck!");
 		piles = new AlternatingCardPile[7];
 		for(int i = 0; i < 7; i ++)
 		{

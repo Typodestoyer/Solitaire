@@ -9,10 +9,6 @@
 			<label>KlondikeSolitaire</label>
 			<showfiles>false</showfiles>
 			<folderitem>
-				<path>KlondikeSolitaire\classes</path>
-				<dir>classes</dir>
-			</folderitem>
-			<folderitem>
 				<path>KlondikeSolitaire\src</path>
 				<dir>src</dir>
 			</folderitem>
@@ -20,10 +16,6 @@
 		<project>
 			<label>SummerScene</label>
 			<showfiles>false</showfiles>
-			<folderitem>
-				<path>SummerScene\classes</path>
-				<dir>classes</dir>
-			</folderitem>
 			<folderitem>
 				<path>SummerScene\src</path>
 				<dir>src</dir>
