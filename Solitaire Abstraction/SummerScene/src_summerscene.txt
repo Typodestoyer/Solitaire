@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-"E:\\Java\\GitProjects\\Solitaire\\Solitaire Abstraction\\SummerScene\\src\\SummerScene.java"
-=======
-"C:\\Users\\DDunbrack\\Desktop\\GitHub\\Solitaire\\Solitaire Abstraction\\SummerScene\\src\\SummerScene.java"
->>>>>>> bec26e37d295836f0ca5c62abd5250c55308677f
+"E:\\Java\\GitAttempt2\\GitProjects\\Solitaire\\Solitaire Abstraction\\SummerScene\\src\\SummerScene.java"

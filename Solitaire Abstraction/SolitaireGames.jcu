@@ -2,7 +2,7 @@
 
 <workspace_user>
 	<active_project>
-		<label>KlondikeSolitaire</label>
+		<label>SummerScene</label>
 	</active_project>
 	<projects>
 		<project>
@@ -33,7 +33,7 @@
 			<path>KlondikeSolitaire\src\SolitaireGame.java</path>
 			<source>true</source>
 			<index>1</index>
-			<active>true</active>
+			<active>false</active>
 		</docitem>
 		<docitem>
 			<path>KlondikeSolitaire\src\SolitaireWindow.java</path>
@@ -45,71 +45,7 @@
 			<path>SummerScene\src\SummerScene.java</path>
 			<source>true</source>
 			<index>3</index>
-			<active>false</active>
+			<active>true</active>
 		</docitem>
 	</open_files>
-	<symboltables>
-		<symboltable>
-			<path>SummerScene\src\SummerScene.java.sdk</path>
-			<symbols>
-				<symbol>Summer</symbol>
-				<symbol>SummerScene</symbol>
-			</symbols>
-		</symboltable>
-		<symboltable>
-			<path>KlondikeSolitaire\src\KlondikeSolitaire.java.sdk</path>
-			<symbols>
-				<symbol>KlondikeSolitaire</symbol>
-				<symbol>SolitaireWindow</symbol>
-			</symbols>
-		</symboltable>
-		<symboltable>
-			<path>KlondikeSolitaire\src\SolitaireWindow.java.sdk</path>
-			<symbols>
-				<symbol>AlternatingCardPile</symbol>
-				<symbol>MyKeyListener</symbol>
-				<symbol>MyMouseListener</symbol>
-				<symbol>SolitaireGame</symbol>
-				<symbol>SolitaireWindow</symbol>
-			</symbols>
-		</symboltable>
-		<symboltable>
-			<path>KlondikeSolitaire\src\KlondikeWindow.java.sdk</path>
-			<symbols>
-				<symbol>AlternatingCardPile</symbol>
-				<symbol>KlondikeWindow</symbol>
-				<symbol>MyKeyListener</symbol>
-				<symbol>MyMouseListener</symbol>
-				<symbol>SolitaireGame</symbol>
-				<symbol>SolitaireWindow</symbol>
-			</symbols>
-		</symboltable>
-		<symboltable>
-			<path>KlondikeSolitaire\src\KlondikeGame.java.sdk</path>
-			<symbols>
-				<symbol>AbstractCardPile</symbol>
-				<symbol>AlternatingCardPile</symbol>
-				<symbol>Card</symbol>
-				<symbol>CardPile</symbol>
-				<symbol>Deck</symbol>
-				<symbol>DiscardPile</symbol>
-				<symbol>KlondikeGame</symbol>
-				<symbol>SolitaireGame</symbol>
-				<symbol>TargetCardPile</symbol>
-			</symbols>
-		</symboltable>
-		<symboltable>
-			<path>KlondikeSolitaire\src\SolitaireGame.java.sdk</path>
-			<symbols>
-				<symbol>AbstractCardPile</symbol>
-				<symbol>AlternatingCardPile</symbol>
-				<symbol>Card</symbol>
-				<symbol>CardPile</symbol>
-				<symbol>Deck</symbol>
-				<symbol>DiscardPile</symbol>
-				<symbol>SolitaireGame</symbol>
-				<symbol>TargetCardPile</symbol>
-			</symbols>
-		</symboltable>
-	</symboltables>
 </workspace_user>
