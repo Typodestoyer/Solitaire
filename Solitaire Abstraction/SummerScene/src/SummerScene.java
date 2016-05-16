@@ -38,23 +38,53 @@ class Summer extends JPanel
 	private static final int DLW = 10;	//LEG WIDTH
 	private static final double DSLOPE = (double)DH/DSX;//SLOPE OF TABLE 3DNESS
 	private static final int DSLY = (int)(DLW*DSLOPE);	//VERTICAL LEG SLOPE
-	private static final int DLH = 150;	
+	private static final int DLH = 150;	//DESK LEG HEIGHT
+	
 	//CHAIR
-	private static final int CX = 440;
-	private static final int CY = 275;
-	private static final int CW = 75;
-	private static final int CH = 50;
-	private static final int CLH = 70;
-	private static final int CLOX = 0;
-	private static final int CLOY = 0;
-	private static final int CSX = (int)(1/DSLOPE * CH);
-	private static final int CLW = 7;
-	private static final int CSLY = (int)(CLW*DSLOPE);
-	private static final int CBH = 50;
+	private static final int CX = 440;	//CHAIR X
+	private static final int CY = 275;	//CHAIR Y
+	private static final int CW = 75;	//CHAIR WIDTH
+	private static final int CH = 50;	//CHAIR HEIGHT
+	private static final int CLH = 70;	//CHAIR LEG HEIGHT
+	private static final int CLOX = 0;	//CHAIR LEG OFFSET X
+	private static final int CLOY = 0;	//CHAIR LEG OFFSET Y
+	private static final int CSX = (int)(1/DSLOPE * CH);	//CHAIR SLOPE X
+	private static final int CLW = 7;	//CHAIR LEG WIDTH
+	private static final int CSLY = (int)(CLW*DSLOPE);	//CHAIR SLOPE LEG Y
+	private static final int CBH = 50;	//CHAIR BACK HEIGHT
+	private static final double CBWF = 0.75;	//CHAIR BACK WIDTH FACTOR
+	
+	//PERSON
+	private static final int PTSX = 20;
+	private static final int PTW = 20;
+	private static final int PYO = 60;
+	private static final int PXO = (CSX-(PTSX/2))/2;
+	private static final int PX = CX + PXO;
+	private static final int PY = CY - CBH - PYO + (int)(PXO * DSLOPE);
+	private static final int PTH = CBH + PYO;
+	private static final int PTSY = (int)(PTSX*DSLOPE);
+	
+	//PERSON LEGS
+	private static final int PLH = 20;
+	private static final int PLW = 65;
+	private static final int PLSX = 20;
+	private static final int PLX = PX + PTSX;
+	private static final int PLY = PY + PTH - PLH;
+	private static final int PLSY = (int)(PLSX*DSLOPE);
+	
+	//PERSON LEGS BELOW KNEES
+	private static final int PLKH = 90;
+	private static final int PLKW = PLH;
+	private static final int PLKX = PLX + PLW;
+	private static final int PLKY = PLY;
+	//private static final int 
 	//private static final int
+	//private static final int 
 	//private static final int
-	//private static final int
-	//private static final int
+	//private static final int 
+	//private static final int 
+	
+	
 	
 	//GENERAL
 	private static final int LY = 250;
@@ -66,7 +96,12 @@ class Summer extends JPanel
 	private static final Color WLC = new Color(222,216,128);
 	private static final int THREE_D_COLOR = 20;
 	private static final Color DC = new Color(255,218,185);
+	private static final Color PC = new Color(30,30,150);
+	
 	//private static final int 
+	
+	//FUNCTIONS------------------------------------------------------------------------------
+	
 	protected void paintComponent(Graphics g2)
 	{
 		Graphics2D g = (Graphics2D)g2;
@@ -101,31 +136,61 @@ class Summer extends JPanel
     	
     	//RECTANGLES!--------------------------------------------------------------------------------------
     	
-    	//TABLE LEGS
-    	deskLeg(g, DLOX, DLOY);
-    	deskLeg(g, DW - DLOX - 2*DLW, DLOY);
-    	deskLeg(g, DW + DSX - DLOX - 2*DLW, DH - DLOY - DSLY);
-    	deskLeg(g, DSX + DLOX - DLW, DH - DLOY - DSLY);
+    	
     	
     	//LEGS
     	chairLeg(g, CLOX, CLOY);
     	chairLeg(g, CW - CLOX - 2*DLW, CLOY);
+    	
+    	deskLeg(g, DLOX, DLOY);
+    	deskLeg(g, DW - DLOX - 2*DLW, DLOY);
+    	
+    	rectPrism(g,PLKX,PLKY,PLKW,PLKH,PLSX,PLSY,PC,d(PC),b(PC));
+    	
+    	
     	chairLeg(g, CW + CSX - CLOX - 2*CLW, CH - CLOY - CSLY);
     	chairLeg(g, CSX + CLOX - CLW, CH - CLOY - CSLY);
     	
     	//CHAIR BASE
     	rectPrism(g,CX,CY,CW,DVO,CSX,CH,CC,d2(CC),b(CC));
-
-    	//BACK OF CHAIR
-    	chairLeg(g, 0, - CLH);
-    	chairLeg(g, (CSX-CLW)/2,-CLH+(CH-DVO)/2);    	
-    	chairLeg(g,CSX-CLW, CH-CLH-DVO);
-		rectPrism(g,CX,CY-CLH,CLW,DVO,CSX,CH,CC,d2(CC),b(CC));
-		    	
+    	
+    	//PERSON UNDER TABLE
+    	
+    	rectPrism(g,PLX,PLY,PLW,PLH,PLSX,PLSY,PC,d(PC),b(PC));
+    	
+    	//TABLE LEGS
+    	deskLeg(g, DW + DSX - DLOX - 2*DLW, DH - DLOY - DSLY);
+    	deskLeg(g, DSX + DLOX - DLW, DH - DLOY - DSLY);
+    	
     	//TABLETOP
     	rectPrism(g,DX,DY,DW,DVO,DSX,DH,DC,d(DC),br(DC));
     	
+    	//PERSON
     	
+    	rectPrism(g,PX,PY,PTW,PTH,PTSX,PTSY,PC,d(PC),b(PC));
+
+		//EDGE OF CHAIR
+		
+    	rectPrism(g,CX,CY,CLW,DVO,CSX,CH,CC,d2(CC),b(CC));
+		
+
+    	//BACK OF CHAIR
+    	    	
+    	rectPrism(g,0+CX,-CLH+CY,CLW,CLH,CLW,CSLY,CC,d2(CC),b(CC));
+    	rectPrism(g,(CSX-CLW)/2+CX,-CLH+(CH-DVO)/2+CY,CLW,CLH,CLW,CSLY,CC,d2(CC),b(CC));
+    	rectPrism(g,CSX-CLW+CX,CH-CLH-DVO+CY,CLW,CLH,CLW,CSLY,CC,d2(CC),b(CC));
+		rectPrism(g,CX,CY-CLH,CLW,DVO,CSX,CH,CC,d2(CC),b(CC));
+		
+		/*
+		 *
+		 *  rectPrism(g,CX,CY-CLH,CLW,DVO,CSX,CH,CC,d2(CC),b(CC));    	    	//TOP OF BACK
+    		rectPrism(g,CX,-CLH+CY,(int)(CLW*CBWF),CLH,(int)(CLW*CBWF),(int)(CSLY*CBWF),CC,d2(CC),b(CC));
+    		rectPrism(g,(CSX-(int)(CLW*CBWF))/2+CX,-CLH+(CH-DVO)/2+CY,(int)(CLW*CBWF),CLH,(int)(CLW*CBWF),(int)(CSLY*CBWF),CC,d2(CC),b(CC));
+    		rectPrism(g,CSX-(int)(CLW*CBWF)+CX,CH-CLH-DVO+CY,(int)(CLW*CBWF),CLH,(int)(CLW*CBWF),(int)(CSLY*CBWF),CC,d2(CC),b(CC));
+		 *
+		 *
+		 **/
+		 	
     	
     	
 	}
