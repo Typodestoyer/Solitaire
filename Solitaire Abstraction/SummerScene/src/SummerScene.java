@@ -59,8 +59,8 @@ class Summer extends JPanel
 	private static final int PTW = 20;
 	private static final int PYO = 60;
 	private static final int PXO = (CSX-(PTSX/2))/2;
-	private static final int PX = CX + PXO;
-	private static final int PY = CY - CBH - PYO + (int)(PXO * DSLOPE);
+	private static final int PTX = CX + PXO;
+	private static final int PTY = CY - CBH - PYO + (int)(PXO * DSLOPE);
 	private static final int PTH = CBH + PYO;
 	private static final int PTSY = (int)(PTSX*DSLOPE);
 	
@@ -68,8 +68,8 @@ class Summer extends JPanel
 	private static final int PLH = 20;
 	private static final int PLW = 65;
 	private static final int PLSX = 20;
-	private static final int PLX = PX + PTSX;
-	private static final int PLY = PY + PTH - PLH;
+	private static final int PLX = PTX + PTSX;
+	private static final int PLY = PTY + PTH - PLH;
 	private static final int PLSY = (int)(PLSX*DSLOPE);
 	
 	//PERSON LEGS BELOW KNEES
@@ -77,14 +77,21 @@ class Summer extends JPanel
 	private static final int PLKW = PLH;
 	private static final int PLKX = PLX + PLW;
 	private static final int PLKY = PLY;
-	//private static final int 
-	//private static final int
-	//private static final int 
-	//private static final int
-	//private static final int 
-	//private static final int 
 	
+	//PERSON HEAD
+	private static final int PHW = PTW;
+	private static final int PHH = 30;
+	private static final int PHXO = 0;
+	private static final int PHYO = -(int)(PHXO*DSLOPE);
+	private static final int PHWO = 5;
+	private static final int PHHO = (int)(PHWO * DSLOPE);
+	private static final int PHSX = 10;
+	private static final int PHSY = (int)(PHSX*DSLOPE);
+	private static final int PHX = PTX + PHWO + PHXO;
+	private static final int PHY = PTY - 30 + PHHO + PHYO;
 	
+	//PERSON ARMS
+	private static final int PARX = PTX;
 	
 	//GENERAL
 	private static final int LY = 250;
@@ -97,6 +104,7 @@ class Summer extends JPanel
 	private static final int THREE_D_COLOR = 20;
 	private static final Color DC = new Color(255,218,185);
 	private static final Color PC = new Color(30,30,150);
+	private static final Color SKINCOLOR = new Color(222,171,127);
 	
 	//private static final int 
 	
@@ -136,8 +144,6 @@ class Summer extends JPanel
     	
     	//RECTANGLES!--------------------------------------------------------------------------------------
     	
-    	
-    	
     	//LEGS
     	chairLeg(g, CLOX, CLOY);
     	chairLeg(g, CW - CLOX - 2*DLW, CLOY);
@@ -145,7 +151,7 @@ class Summer extends JPanel
     	deskLeg(g, DLOX, DLOY);
     	deskLeg(g, DW - DLOX - 2*DLW, DLOY);
     	
-    	rectPrism(g,PLKX,PLKY,PLKW,PLKH,PLSX,PLSY,PC,d(PC),b(PC));
+    	rectPrism(g,PLKX,PLKY,PLKW,PLKH,PLSX,PLSY,SKINCOLOR,d(SKINCOLOR),b(SKINCOLOR));
     	
     	
     	chairLeg(g, CW + CSX - CLOX - 2*CLW, CH - CLOY - CSLY);
@@ -157,6 +163,9 @@ class Summer extends JPanel
     	//PERSON UNDER TABLE
     	
     	rectPrism(g,PLX,PLY,PLW,PLH,PLSX,PLSY,PC,d(PC),b(PC));
+    	g.setColor(Color.BLACK);
+    	g.setStroke(new BasicStroke(2));
+    	g.drawLine(PLX+PLW/2,PLY+(int)((PLSX/2)*DSLOPE),PLX+PLW,PLY+(int)((PLSX/2)*DSLOPE));
     	
     	//TABLE LEGS
     	deskLeg(g, DW + DSX - DLOX - 2*DLW, DH - DLOY - DSLY);
@@ -167,12 +176,15 @@ class Summer extends JPanel
     	
     	//PERSON
     	
-    	rectPrism(g,PX,PY,PTW,PTH,PTSX,PTSY,PC,d(PC),b(PC));
+    	rectPrism(g,PTX,PTY,PTW,PTH,PTSX,PTSY,PC,d(PC),b(PC));
 
 		//EDGE OF CHAIR
 		
     	rectPrism(g,CX,CY,CLW,DVO,CSX,CH,CC,d2(CC),b(CC));
 		
+		//HEAD
+		
+		rectPrism(g,PHX,PHY,PHW,PHH,PHSX,PHSY,SKINCOLOR,d(SKINCOLOR),b(SKINCOLOR));		
 
     	//BACK OF CHAIR
     	    	
