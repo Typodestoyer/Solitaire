@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
-
+import java.awt.event.*;
 public class SummerScene
 {
 	public static void main (String[] args)
@@ -18,8 +18,10 @@ public class SummerScene
 	}
 }
 
-class Summer extends JPanel
+class Summer extends JPanel implements ActionListener
 {
+	private int armStretch = 0;
+	
 	//WINDOW
 	private static final int WY = 25;	//Y OF UPPER LEFT
 	private static final int WX = 100;	//X ""
@@ -85,13 +87,66 @@ class Summer extends JPanel
 	private static final int PHYO = -(int)(PHXO*DSLOPE);
 	private static final int PHWO = 5;
 	private static final int PHHO = (int)(PHWO * DSLOPE);
+	
 	private static final int PHSX = 10;
 	private static final int PHSY = (int)(PHSX*DSLOPE);
 	private static final int PHX = PTX + PHWO + PHXO;
 	private static final int PHY = PTY - 30 + PHHO + PHYO;
 	
-	//PERSON ARMS
-	private static final int PARX = PTX;
+	//PERSON RIGHT ARM
+	private static final int PARSX = 5;
+	private static final int PARW = 60;
+	private static final int PARH = 10;
+	private static final int PARSY = (int)(DSLOPE * PARSX);
+	private static final int PARY = PTY + PTSY + 20;
+	private static final int PARX = PTX + PTSX;
+	
+	//PERSON LEFT ARM
+	private static final int PALSX = PARSX;
+	private static final int PALW = PARW;
+	private static final int PALH = PARH;
+	private static final int PALSY = PARSY;
+	private static final int PALY = PTY + 20;
+	private static final int PALX = PTX;
+	
+	//KEYBOARD
+	private static final int KX = PALX + PALW - 30;
+	private static final int KY = PALY - 15;
+	private static final int KW = 30;
+	private static final int KH = 2;
+	private static final int KSX = 20;
+	private static final int KSY = (int)(DSLOPE * KSX);
+	
+	//MOUSE
+	private static final int MX = PARX + PLW - 5;
+	private static final int MY = PARY + 5;
+	private static final int MW = 20;
+	private static final int MH = 5;
+	private static final int MSX = 5;
+	private static final int MSY = (int)(DSLOPE*MSX);
+	
+	//MOUSE WHEEL
+	private static final int MWX = MX + MSX/2 + MW/2; 
+	private static final int MWH = 2;
+	private static final int MWY = MY + MSY/2 - MWH/2;
+	private static final int MWW = MW/2;
+	private static final int MWSX = 1;
+	private static final int MWSY = (int)(DSLOPE*MWSX);
+	
+	//PERSON FINGER
+	private static final int PFX = PARX + PARW;
+	private static final int PFY = PARY + 2;
+	private static final int PFW = MW/2 + 7;
+	private static final int PFH = 4;
+	private static final int PFSX = 1;
+	private static final int PFSY = (int)(DSLOPE*PFSX);
+	
+	//private static final int 
+	//private static final int 
+	//private static final int 
+	//private static final int 
+	//private static final int 
+	//private static final int 
 	
 	//GENERAL
 	private static final int LY = 250;
@@ -105,10 +160,21 @@ class Summer extends JPanel
 	private static final Color DC = new Color(255,218,185);
 	private static final Color PC = new Color(30,30,150);
 	private static final Color SKINCOLOR = new Color(222,171,127);
+	private static final Color MC = new Color(211,211,211);
+	private static final Color MWC = new Color(128,128,128);
+	private static final Color KC = new Color(150,150,150);
+	//private static final Color 
 	
-	//private static final int 
+	Timer t;
 	
 	//FUNCTIONS------------------------------------------------------------------------------
+	
+	public Summer()
+	{
+		t = new Timer(100, this);
+		t.setInitialDelay(1000);
+		t.start();
+	}
 	
 	protected void paintComponent(Graphics g2)
 	{
@@ -145,65 +211,54 @@ class Summer extends JPanel
     	//RECTANGLES!--------------------------------------------------------------------------------------
     	
     	//LEGS
-    	chairLeg(g, CLOX, CLOY);
-    	chairLeg(g, CW - CLOX - 2*DLW, CLOY);
+    	chairLeg(g, CLOX, CLOY);																	//BACK LEFT CHAIR LEG
+    	chairLeg(g, CW - CLOX - 2*DLW, CLOY);														//BACK RIGHT CHAIR LEG
     	
-    	deskLeg(g, DLOX, DLOY);
-    	deskLeg(g, DW - DLOX - 2*DLW, DLOY);
+    	deskLeg(g, DLOX, DLOY);																		//BACK LEFT DESK LEG
+    	deskLeg(g, DW - DLOX - 2*DLW, DLOY);														//BACK RIGHT DESK LEG (INVISIBLE)
     	
-    	rectPrism(g,PLKX,PLKY,PLKW,PLKH,PLSX,PLSY,SKINCOLOR,d(SKINCOLOR),b(SKINCOLOR));
+    	rectPrism(g,PLKX,PLKY,PLKW,PLKH,PLSX,PLSY,SKINCOLOR,d(SKINCOLOR),b(SKINCOLOR));				//PERSON'S LEGS UNDER THE TABLE BELOW THE KNEE
     	
+    	chairLeg(g, CW + CSX - CLOX - 2*CLW, CH - CLOY - CSLY);										//FRONT RIGHT CHAIR LEG
+    	chairLeg(g, CSX + CLOX - CLW, CH - CLOY - CSLY);											//FRONT LEFT CHAIR LEG
     	
-    	chairLeg(g, CW + CSX - CLOX - 2*CLW, CH - CLOY - CSLY);
-    	chairLeg(g, CSX + CLOX - CLW, CH - CLOY - CSLY);
+    	rectPrism(g,CX,CY,CW,DVO,CSX,CH,CC,d2(CC),b(CC));											//CHAIR BASE
     	
-    	//CHAIR BASE
-    	rectPrism(g,CX,CY,CW,DVO,CSX,CH,CC,d2(CC),b(CC));
+    	rectPrism(g,PLX,PLY,PLW,PLH,PLSX,PLSY,PC,d(PC),b(PC));										//PERSON'S LEGS UNDER THE TABLE ABOVE KNEE (BLUE)    	
     	
-    	//PERSON UNDER TABLE
-    	
-    	rectPrism(g,PLX,PLY,PLW,PLH,PLSX,PLSY,PC,d(PC),b(PC));
     	g.setColor(Color.BLACK);
     	g.setStroke(new BasicStroke(2));
-    	g.drawLine(PLX+PLW/2,PLY+(int)((PLSX/2)*DSLOPE),PLX+PLW,PLY+(int)((PLSX/2)*DSLOPE));
+    	g.drawLine(PLX+PLW/2,PLY+(int)((PLSX/2)*DSLOPE),PLX+PLW,PLY+(int)((PLSX/2)*DSLOPE));		//LINE SEPARATING LEGS
     	
-    	//TABLE LEGS
-    	deskLeg(g, DW + DSX - DLOX - 2*DLW, DH - DLOY - DSLY);
-    	deskLeg(g, DSX + DLOX - DLW, DH - DLOY - DSLY);
+    	deskLeg(g, DW + DSX - DLOX - 2*DLW, DH - DLOY - DSLY);										//FRONT RIGHT DESK LEG
+    	deskLeg(g, DSX + DLOX - DLW, DH - DLOY - DSLY);												//FRONT LEFT DESK LEG
     	
-    	//TABLETOP
-    	rectPrism(g,DX,DY,DW,DVO,DSX,DH,DC,d(DC),br(DC));
+    	rectPrism(g,DX,DY,DW,DVO,DSX,DH,DC,d(DC),br(DC));											//TOP OF DESK
     	
-    	//PERSON
+    	rectPrism(g,KX,KY,KW,KH,KSX,KSY,KC,d(KC),b(KC));												//KEYBOARD
     	
-    	rectPrism(g,PTX,PTY,PTW,PTH,PTSX,PTSY,PC,d(PC),b(PC));
-
-		//EDGE OF CHAIR
+		rectPrism(g,PALX,PALY,PALW,PALH,PALSX,PALSY,SKINCOLOR,d(SKINCOLOR),b(SKINCOLOR));			//PERSON'S BACK ARM
+    	
+    	rectPrism(g,PTX,PTY,PTW,PTH,PTSX,PTSY,PC,d(PC),b(PC));										//PERSON'S TORSO
 		
-    	rectPrism(g,CX,CY,CLW,DVO,CSX,CH,CC,d2(CC),b(CC));
+    	rectPrism(g,CX,CY,CLW,DVO,CSX,CH,CC,d2(CC),b(CC));											//REDRAWING EDGE OF CHAIR TO COVER UP PERSON PIXELS
 		
-		//HEAD
-		
-		rectPrism(g,PHX,PHY,PHW,PHH,PHSX,PHSY,SKINCOLOR,d(SKINCOLOR),b(SKINCOLOR));		
-
-    	//BACK OF CHAIR
-    	    	
-    	rectPrism(g,0+CX,-CLH+CY,CLW,CLH,CLW,CSLY,CC,d2(CC),b(CC));
-    	rectPrism(g,(CSX-CLW)/2+CX,-CLH+(CH-DVO)/2+CY,CLW,CLH,CLW,CSLY,CC,d2(CC),b(CC));
-    	rectPrism(g,CSX-CLW+CX,CH-CLH-DVO+CY,CLW,CLH,CLW,CSLY,CC,d2(CC),b(CC));
-		rectPrism(g,CX,CY-CLH,CLW,DVO,CSX,CH,CC,d2(CC),b(CC));
-		
-		/*
-		 *
-		 *  rectPrism(g,CX,CY-CLH,CLW,DVO,CSX,CH,CC,d2(CC),b(CC));    	    	//TOP OF BACK
-    		rectPrism(g,CX,-CLH+CY,(int)(CLW*CBWF),CLH,(int)(CLW*CBWF),(int)(CSLY*CBWF),CC,d2(CC),b(CC));
-    		rectPrism(g,(CSX-(int)(CLW*CBWF))/2+CX,-CLH+(CH-DVO)/2+CY,(int)(CLW*CBWF),CLH,(int)(CLW*CBWF),(int)(CSLY*CBWF),CC,d2(CC),b(CC));
-    		rectPrism(g,CSX-(int)(CLW*CBWF)+CX,CH-CLH-DVO+CY,(int)(CLW*CBWF),CLH,(int)(CLW*CBWF),(int)(CSLY*CBWF),CC,d2(CC),b(CC));
-		 *
-		 *
-		 **/
-		 	
+		rectPrism(g,PHX,PHY,PHW,PHH,PHSX,PHSY,SKINCOLOR,d(SKINCOLOR),b(SKINCOLOR));					//PERSON'S HEAD
     	
+    	//BACK OF CHAIR    	
+    	rectPrism(g,CX,-CLH+CY,CLW,CLH,CLW,CSLY,CC,d2(CC),b(CC));									//CHAIR BACK HORIZONTAL TOP BAR
+    	rectPrism(g,(CSX-CLW)/2+CX,-CLH+(CH-DVO)/2+CY,CLW,CLH,CLW,CSLY,CC,d2(CC),b(CC));			//CHAIR BACK VERTICAL LEFT BAR
+    	rectPrism(g,CSX-CLW+CX,CH-CLH-DVO+CY,CLW,CLH,CLW,CSLY,CC,d2(CC),b(CC));						//CHAIR BACK VERTICAL MIDDLE BAR
+		rectPrism(g,CX,CY-CLH,CLW,DVO,CSX,CH,CC,d2(CC),b(CC));										//CHAIR BACK VERTICAL RIGHT BAR
+		//END OF BACK OF CHAIR
+		
+		rectPrism(g,MX + armStretch,MY,MW,MH,MSX,MSY,MC,d(MC),b(MC));											//MOUSE
+		rectPrism(g,MWX + armStretch,MWY,MWW,MWH,MWSX,MWSY,MWC,d(MWC),b(MWC));									//MOUSE WHEEL
+    	
+    	rectPrism(g,PFX + armStretch,PFY,PFW,PFH,PFSX,PFSY,SKINCOLOR,d(SKINCOLOR),b(SKINCOLOR));				//PERSON'S RIGHT FINGER
+    	
+		rectPrism(g,PARX,PARY,PARW + armStretch,PARH,PARSX,PARSY,SKINCOLOR,d(SKINCOLOR),b(SKINCOLOR));			//PERSON'S RIGHT ARM
+    	rectPrism(g,PARX,PTY+PTSY,PTW,(PARY-PTY-PTSY)+PARH,PARSX,PARSY,PC,d(PC),b(PC));							//PERSON'S RIGHT SHOULDER
     	
 	}
 	private void deskLeg(Graphics2D g, int x, int y)
@@ -245,6 +300,15 @@ class Summer extends JPanel
 	private Color d2(Color c)
 	{
 		return new Color((int)(c.getRed()-THREE_D_COLOR),(int)(c.getGreen()-THREE_D_COLOR),(int)(c.getBlue()));
+	}
+	
+	public void actionPerformed(ActionEvent e)
+	{
+		if(armStretch < 20)
+		{
+			armStretch ++;
+		}
+		repaint();
 	}
 }
 
@@ -288,4 +352,13 @@ class Summer extends JPanel
  *
  *
  *
- **/ 
+ **/
+ 		/*
+		 *
+		 *  rectPrism(g,CX,CY-CLH,CLW,DVO,CSX,CH,CC,d2(CC),b(CC));    	    	//TOP OF BACK
+    		rectPrism(g,CX,-CLH+CY,(int)(CLW*CBWF),CLH,(int)(CLW*CBWF),(int)(CSLY*CBWF),CC,d2(CC),b(CC));
+    		rectPrism(g,(CSX-(int)(CLW*CBWF))/2+CX,-CLH+(CH-DVO)/2+CY,(int)(CLW*CBWF),CLH,(int)(CLW*CBWF),(int)(CSLY*CBWF),CC,d2(CC),b(CC));
+    		rectPrism(g,CSX-(int)(CLW*CBWF)+CX,CH-CLH-DVO+CY,(int)(CLW*CBWF),CLH,(int)(CLW*CBWF),(int)(CSLY*CBWF),CC,d2(CC),b(CC));
+		 *
+		 *
+		 **/
