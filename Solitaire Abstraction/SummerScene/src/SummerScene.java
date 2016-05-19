@@ -20,7 +20,10 @@ public class SummerScene
 
 class Summer extends JPanel implements ActionListener
 {
+	//ANIMATION VARIABLES	
 	private int armStretch = 0;
+	private boolean isClicked = false;
+	private int night = 0;
 	
 	//WINDOW
 	private static final int WY = 25;	//Y OF UPPER LEFT
@@ -81,17 +84,17 @@ class Summer extends JPanel implements ActionListener
 	private static final int PLKY = PLY;
 	
 	//PERSON HEAD
-	private static final int PHW = PTW;
-	private static final int PHH = 30;
-	private static final int PHXO = 0;
+	private static final int PHW = PTW + 10;
+	private static final int PHH = 35;
+	private static final int PHXO = -3;
 	private static final int PHYO = -(int)(PHXO*DSLOPE);
 	private static final int PHWO = 5;
 	private static final int PHHO = (int)(PHWO * DSLOPE);
 	
-	private static final int PHSX = 10;
+	private static final int PHSX = 12;
 	private static final int PHSY = (int)(PHSX*DSLOPE);
 	private static final int PHX = PTX + PHWO + PHXO;
-	private static final int PHY = PTY - 30 + PHHO + PHYO;
+	private static final int PHY = PTY - PHH + PHHO + PHYO;
 	
 	//PERSON RIGHT ARM
 	private static final int PARSX = 5;
@@ -110,12 +113,14 @@ class Summer extends JPanel implements ActionListener
 	private static final int PALX = PTX;
 	
 	//KEYBOARD
-	private static final int KX = PALX + PALW - 30;
-	private static final int KY = PALY - 15;
+	private static final int KX = PALX + PALW - 20;
+	private static final int KY = PALY - 5;
 	private static final int KW = 30;
 	private static final int KH = 2;
 	private static final int KSX = 20;
 	private static final int KSY = (int)(DSLOPE * KSX);
+	private static final int KLGAPX = 5;
+	private static final int KLGAPY = 5;
 	
 	//MOUSE
 	private static final int MX = PARX + PLW - 5;
@@ -141,12 +146,23 @@ class Summer extends JPanel implements ActionListener
 	private static final int PFSX = 1;
 	private static final int PFSY = (int)(DSLOPE*PFSX);
 	
+	//MONITOR
+	private static final int CMW = 40;
+	private static final int CMH = 60;
+	private static final int CMX = KX + KW + 5;
+	private static final int CMY = KY - CMH;
+	private static final int CMSX = 20;
+	private static final int CMSY = (int)(DSLOPE*CMSX);
+	private static final int CMGX = 3;
+	private static final int CMGY = 5;
+	
 	//private static final int 
 	//private static final int 
 	//private static final int 
 	//private static final int 
 	//private static final int 
 	//private static final int 
+
 	
 	//GENERAL
 	private static final int LY = 250;
@@ -154,6 +170,7 @@ class Summer extends JPanel implements ActionListener
 	
 	//COLOR
 	private static final Color CC = new Color(161,80,8);
+	private static final Color WC = new Color(242,236,148);
 	private static final Color FC = new Color(200,200,200);
 	private static final Color WLC = new Color(222,216,128);
 	private static final int THREE_D_COLOR = 20;
@@ -163,6 +180,9 @@ class Summer extends JPanel implements ActionListener
 	private static final Color MC = new Color(211,211,211);
 	private static final Color MWC = new Color(128,128,128);
 	private static final Color KC = new Color(150,150,150);
+	private static final Color KLC = MWC;
+	private static final Color CMC = new Color(100,100,100);
+	private static final Color CSC = Color.BLACK;
 	//private static final Color 
 	
 	Timer t;
@@ -171,7 +191,7 @@ class Summer extends JPanel implements ActionListener
 	
 	public Summer()
 	{
-		t = new Timer(100, this);
+		t = new Timer(250, this);
 		t.setInitialDelay(1000);
 		t.start();
 	}
@@ -182,20 +202,20 @@ class Summer extends JPanel implements ActionListener
 		int[] x = {};
 		int[] y = {};
 		//Everything
-		g.setColor(FC);
+		g.setColor(n(FC));
 		g.fillRect(0,0,this.getWidth(),this.getHeight());
 		//Walls
-		g.setColor(new Color(242,236,148));
+		g.setColor(n(WC));
 		
 		g.fillRect(0,0,this.getWidth(),LY);		
     	x = new int[] {LX, LX, this.getWidth(), this.getWidth()};
     	y = new int[] {LY, 0, 0, (int)(LY + (DSLOPE*(this.getWidth()-LX)))};
     	g.fillPolygon(x,y,4);
 		//Behind Window
-		g.setColor(Color.CYAN);
+		g.setColor(n(Color.CYAN));
 		g.fillRect(WX,WY,WW,WH);
 		//Window Outline
-		g.setColor(Color.GRAY);
+		g.setColor(n(Color.GRAY));
 		g.setStroke(new BasicStroke(7));
     	g.drawRect(WX,WY,WW,WH);
     	//Window Bars
@@ -203,7 +223,7 @@ class Summer extends JPanel implements ActionListener
     	g.drawLine(WX + WW/2, WY, WX + WW/2, WY + WH);
     	g.drawLine(WX, WY + WH/2, WX + WW, WY + WH/2);
     	//"Horizon" Line in House
-    	g.setColor(Color.BLACK);
+    	g.setColor(n(Color.BLACK));
     	g.drawLine(0,LY,LX,LY);
     	g.drawLine(LX,0,LX,LY);
     	g.drawLine(LX,LY,this.getWidth(),(int)(LY + (DSLOPE*(this.getWidth()-LX))));
@@ -235,7 +255,19 @@ class Summer extends JPanel implements ActionListener
     	
     	rectPrism(g,DX,DY,DW,DVO,DSX,DH,DC,d(DC),br(DC));											//TOP OF DESK
     	
-    	rectPrism(g,KX,KY,KW,KH,KSX,KSY,KC,d(KC),b(KC));												//KEYBOARD
+    	rectPrism(g,KX,KY,KW,KH,KSX,KSY,KC,d(KC),b(KC));											//KEYBOARD
+    	g.setStroke(new BasicStroke(1));
+    	g.setColor(n(KLC));
+    	for(int i = KX + KLGAPX; i < KX + KW; i += KLGAPX)
+    	{
+    		g.drawLine(i,KY, i+KSX,KY + KSY);
+    	}
+    	for(int j = KY + KLGAPY; j < KY + KSY; j += KLGAPY)
+    	{
+    		g.drawLine(KX + (int)(1/DSLOPE * (j-KY)),j,KX + KW + (int)(1/DSLOPE * (j-KY)),j);
+    	}
+    	
+    	
     	
 		rectPrism(g,PALX,PALY,PALW,PALH,PALSX,PALSY,SKINCOLOR,d(SKINCOLOR),b(SKINCOLOR));			//PERSON'S BACK ARM
     	
@@ -255,11 +287,14 @@ class Summer extends JPanel implements ActionListener
 		rectPrism(g,MX + armStretch,MY,MW,MH,MSX,MSY,MC,d(MC),b(MC));											//MOUSE
 		rectPrism(g,MWX + armStretch,MWY,MWW,MWH,MWSX,MWSY,MWC,d(MWC),b(MWC));									//MOUSE WHEEL
     	
-    	rectPrism(g,PFX + armStretch,PFY,PFW,PFH,PFSX,PFSY,SKINCOLOR,d(SKINCOLOR),b(SKINCOLOR));				//PERSON'S RIGHT FINGER
+    	rectPrism(g,PFX + armStretch,PFY,PFW,PFH,PFSX,PFSY+(isClicked? 1 : 0),SKINCOLOR,d(SKINCOLOR),b(SKINCOLOR));				//PERSON'S RIGHT FINGER
     	
 		rectPrism(g,PARX,PARY,PARW + armStretch,PARH,PARSX,PARSY,SKINCOLOR,d(SKINCOLOR),b(SKINCOLOR));			//PERSON'S RIGHT ARM
     	rectPrism(g,PARX,PTY+PTSY,PTW,(PARY-PTY-PTSY)+PARH,PARSX,PARSY,PC,d(PC),b(PC));							//PERSON'S RIGHT SHOULDER
     	
+    	rectPrism(g,CMX,CMY,CMW,CMH,CMSX,CMSY,CMC,d(CMC),b(CMC));
+    	g.setColor(n(CSC));
+    	g.fillPolygon(new int[]{CMX + CMGX, CMX + CMSX - CMGX, CMX + CMSX - CMGX, CMX + CMGX}, new int[]{CMY + CMGY + (int)(DSLOPE * CMGX), CMY + CMSY + CMGY - (int)(DSLOPE * CMGX), CMY + CMSY + CMH - CMGY - (int)(DSLOPE * CMGX), CMY + CMH - CMGY + (int)(DSLOPE * CMGX)}, 4);
 	}
 	private void deskLeg(Graphics2D g, int x, int y)
 	{
@@ -272,13 +307,13 @@ class Summer extends JPanel implements ActionListener
 	
 	private void rectPrism(Graphics2D g, int x, int y, int width, int height, int xslope, int yslope, Color topColor, Color frontColor, Color sideColor)
 	{
-		g.setColor(frontColor);
+		g.setColor(n(frontColor));
     	g.fillRect(x + xslope, y+yslope, width, height);
-		g.setColor(sideColor);
+		g.setColor(n(sideColor));
 		int[] x2 = {x, x + xslope, x + xslope, x};
     	int[] y2 = {y, y + yslope, y + height + yslope, y + height};
     	g.fillPolygon(x2,y2,4);
-    	g.setColor(topColor);
+    	g.setColor(n(topColor));
     	x2 = new int[] {x,x+width,x+width+xslope,x+xslope};
     	y2 = new int[] {y,y,y+yslope,y+yslope};
     	g.fillPolygon(x2,y2,4);
@@ -302,13 +337,39 @@ class Summer extends JPanel implements ActionListener
 		return new Color((int)(c.getRed()-THREE_D_COLOR),(int)(c.getGreen()-THREE_D_COLOR),(int)(c.getBlue()));
 	}
 	
+	private Color db(Color c)
+	{
+		return new Color(c.getRed(),c.getGreen(),(int)(c.getBlue()+THREE_D_COLOR));
+	}
+	private Color bb(Color c)
+	{
+		return new Color(c.getRed(),c.getGreen(),(int)(c.getBlue()-THREE_D_COLOR));
+	}
+	
 	public void actionPerformed(ActionEvent e)
 	{
 		if(armStretch < 20)
 		{
 			armStretch ++;
 		}
+		isClicked = !isClicked;
+		if(night < 4)
+		{
+			night ++;
+		}
+		else
+		{
+			night = 0;
+		}
 		repaint();
+	}
+	private Color n(Color c)
+	{
+		for(int i = 0; i < night; i ++)
+		{
+			c = c.darker();
+		}
+		return c;
 	}
 }
 
