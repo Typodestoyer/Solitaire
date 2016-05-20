@@ -20,10 +20,6 @@ public class SummerScene
 
 class Summer extends JPanel implements ActionListener
 {
-	//ANIMATION VARIABLES	
-	private int armStretch = 0;
-	private boolean isClicked = false;
-	private int night = 0;
 	
 	//WINDOW
 	private static final int WY = 25;	//Y OF UPPER LEFT
@@ -183,17 +179,31 @@ class Summer extends JPanel implements ActionListener
 	private static final Color KLC = MWC;
 	private static final Color CMC = new Color(100,100,100);
 	private static final Color CSC = Color.BLACK;
+	private static final Color SSC = Color.YELLOW;
+	private static final Color SMC = Color.WHITE;
 	//private static final Color 
 	
-	Timer t;
+	//Timekeeping
+	private int hour = 12;
+	private int tick = 0;
+	private Timer t;
+	private boolean armForward = false;
+	
+	//ANIMATION VARIABLES	
+	private int armStretch = 0;
+	private boolean isClicked = false;
+	private int night = 0;
+	private Star sun, moon;
 	
 	//FUNCTIONS------------------------------------------------------------------------------
 	
 	public Summer()
 	{
-		t = new Timer(250, this);
-		t.setInitialDelay(1000);
+		t = new Timer(25,this);
+		t.setInitialDelay(200);
 		t.start();
+		sun = new Star(0,0,SSC);
+		moon = new Star(100,0,SMC);
 	}
 	
 	protected void paintComponent(Graphics g2)
@@ -214,6 +224,11 @@ class Summer extends JPanel implements ActionListener
 		//Behind Window
 		g.setColor(n(Color.CYAN));
 		g.fillRect(WX,WY,WW,WH);
+		
+    	g.setColor(sun.getColor());
+    	g.fillOval(sun.getX(),sun.getY(),Star.width,Star.width);
+    	g.setColor(moon.getColor());
+    	g.fillOval(moon.getX(),moon.getY(),Star.width,Star.width);
 		//Window Outline
 		g.setColor(n(Color.GRAY));
 		g.setStroke(new BasicStroke(7));
@@ -285,9 +300,8 @@ class Summer extends JPanel implements ActionListener
 		//END OF BACK OF CHAIR
 		
 		rectPrism(g,MX + armStretch,MY,MW,MH,MSX,MSY,MC,d(MC),b(MC));											//MOUSE
-		rectPrism(g,MWX + armStretch,MWY,MWW,MWH,MWSX,MWSY,MWC,d(MWC),b(MWC));									//MOUSE WHEEL
-    	
     	rectPrism(g,PFX + armStretch,PFY,PFW,PFH,PFSX,PFSY+(isClicked? 1 : 0),SKINCOLOR,d(SKINCOLOR),b(SKINCOLOR));				//PERSON'S RIGHT FINGER
+		rectPrism(g,MWX + armStretch,MWY,MWW,MWH,MWSX,MWSY,MWC,d(MWC),b(MWC));									//MOUSE WHEEL
     	
 		rectPrism(g,PARX,PARY,PARW + armStretch,PARH,PARSX,PARSY,SKINCOLOR,d(SKINCOLOR),b(SKINCOLOR));			//PERSON'S RIGHT ARM
     	rectPrism(g,PARX,PTY+PTSY,PTW,(PARY-PTY-PTSY)+PARH,PARSX,PARSY,PC,d(PC),b(PC));							//PERSON'S RIGHT SHOULDER
@@ -295,6 +309,7 @@ class Summer extends JPanel implements ActionListener
     	rectPrism(g,CMX,CMY,CMW,CMH,CMSX,CMSY,CMC,d(CMC),b(CMC));
     	g.setColor(n(CSC));
     	g.fillPolygon(new int[]{CMX + CMGX, CMX + CMSX - CMGX, CMX + CMSX - CMGX, CMX + CMGX}, new int[]{CMY + CMGY + (int)(DSLOPE * CMGX), CMY + CMSY + CMGY - (int)(DSLOPE * CMGX), CMY + CMSY + CMH - CMGY - (int)(DSLOPE * CMGX), CMY + CMH - CMGY + (int)(DSLOPE * CMGX)}, 4);
+    	
 	}
 	private void deskLeg(Graphics2D g, int x, int y)
 	{
@@ -348,19 +363,54 @@ class Summer extends JPanel implements ActionListener
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		if(armStretch < 20)
+		if(tick%16 == 0)
 		{
-			armStretch ++;
+			switch(hour/2)
+			{
+				case 0:
+					night = 4;
+					break;
+				case 1:
+				case 11:
+					night = 3;
+					break;
+				case 2:
+				case 10:
+					night = 2;
+					break;
+				case 3:
+				case 9:
+					night = 1;
+					break;
+				default:
+					night = 0;
+			}
+			hour = (++hour%24);
 		}
-		isClicked = !isClicked;
-		if(night < 4)
+		if(tick%2 == 0 && tick%40 < 30)
 		{
-			night ++;
+			if(armStretch == 0 || armStretch == 15)
+			{
+				armForward = !armForward;
+			}
+			if(armForward)
+			{
+				armStretch++;
+			}
+			else
+			{
+				armStretch--;
+			}
 		}
-		else
+		if(tick%40 == 30)
 		{
-			night = 0;
+			isClicked = true;
 		}
+		if(tick%40 == 34)
+		{
+			isClicked = false;
+		}
+		tick++;
 		repaint();
 	}
 	private Color n(Color c)
@@ -370,6 +420,44 @@ class Summer extends JPanel implements ActionListener
 			c = c.darker();
 		}
 		return c;
+	}
+	
+	private class Star
+	{
+		private Color c;
+		private int x;
+		private int y;
+		public static final int width = 80;
+		public Star(int x, int y, Color c)
+		{
+			this.x = x;
+			this.y = y;
+			this.c = c;
+		}
+		public int getX()
+		{
+			return x;
+		}
+		public int getY()
+		{
+			return y;
+		}
+		public Color getColor()
+		{
+			return c;
+		}
+		public void setX(int x)
+		{
+			this.x = x;
+		}
+		public void setY(int y)
+		{
+			this.y = y;
+		}
+		public void setColor(Color c)
+		{
+			this.c = c;
+		}
 	}
 }
 
