@@ -178,7 +178,7 @@ class Summer extends JPanel implements ActionListener
 	private static final Color KC = new Color(150,150,150);
 	private static final Color KLC = MWC;
 	private static final Color CMC = new Color(100,100,100);
-	private static final Color CSC = Color.BLACK;
+	private static final Color CSC = new Color(64,224,208);
 	private static final Color SSC = Color.YELLOW;
 	private static final Color SMC = Color.WHITE;
 	//private static final Color 
@@ -217,10 +217,10 @@ class Summer extends JPanel implements ActionListener
 		g.setColor(n(n(Color.CYAN)));
 		g.fillRect(WX,WY,WW,WH);
 		
-		sun.setX((int)(Star.orbitCX - Star.orbitRadius*Math.cos(Math.toRadians(thetaDeg))));
-		sun.setY((int)(Star.orbitCY - Star.orbitRadius*Math.sin(Math.toRadians(thetaDeg))));
-		moon.setX((int)(Star.orbitCX - Star.orbitRadius*Math.cos(Math.toRadians(thetaDeg-180))));
-		moon.setY((int)(Star.orbitCY - Star.orbitRadius*Math.sin(Math.toRadians(thetaDeg-180))));
+		sun.setX((int)(Star.orbitCX - Star.orbitRadius*Math.cos(Math.toRadians(thetaDeg+45))));
+		sun.setY((int)(Star.orbitCY - Star.orbitRadius*Math.sin(Math.toRadians(thetaDeg+45))));
+		moon.setX((int)(Star.orbitCX - Star.orbitRadius*Math.cos(Math.toRadians(thetaDeg-135))));
+		moon.setY((int)(Star.orbitCY - Star.orbitRadius*Math.sin(Math.toRadians(thetaDeg-135))));
 		
     	g.setColor(sun.getColor());
     	g.fillOval(sun.getX(),sun.getY(),Star.width,Star.width);
@@ -311,7 +311,7 @@ class Summer extends JPanel implements ActionListener
 		//END OF BACK OF CHAIR
 		
 		rectPrism(g,MX + armStretch,MY,MW,MH,MSX,MSY,MC,d(MC),b(MC));											//MOUSE
-    	rectPrism(g,PFX + armStretch,PFY,PFW,PFH,PFSX,PFSY+(isClicked? 1 : 0),SKINCOLOR,d(SKINCOLOR),b(SKINCOLOR));				//PERSON'S RIGHT FINGER
+    	rectPrism(g,PFX + armStretch,PFY+(isClicked? 1 : 0),PFW,PFH,PFSX,PFSY,SKINCOLOR,d(SKINCOLOR),b(SKINCOLOR));				//PERSON'S RIGHT FINGER
 		rectPrism(g,MWX + armStretch,MWY,MWW,MWH,MWSX,MWSY,MWC,d(MWC),b(MWC));									//MOUSE WHEEL
     	
 		rectPrism(g,PARX,PARY,PARW + armStretch,PARH,PARSX,PARSY,SKINCOLOR,d(SKINCOLOR),b(SKINCOLOR));			//PERSON'S RIGHT ARM
@@ -374,13 +374,11 @@ class Summer extends JPanel implements ActionListener
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		if(tick%16 == 0)
+		if(tick%32 == 0)
 		{
 			switch(hour/2)
 			{
 				case 0:
-					night = 4;
-					break;
 				case 1:
 				case 11:
 					night = 3;
@@ -422,7 +420,7 @@ class Summer extends JPanel implements ActionListener
 			isClicked = false;
 		}
 		//For all ticks
-		thetaDeg = (thetaDeg + (double)360/384);
+		thetaDeg = (thetaDeg + (double)360/768);
 		if(Math.abs(thetaDeg - 360) < 0.5)
 		{
 			thetaDeg = 0;
