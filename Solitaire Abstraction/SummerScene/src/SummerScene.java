@@ -194,6 +194,7 @@ class Summer extends JPanel implements ActionListener
 	private boolean isClicked = false;
 	private int night = 0;
 	private Star sun, moon;
+	private double thetaDeg = 0;
 	
 	//FUNCTIONS------------------------------------------------------------------------------
 	
@@ -210,25 +211,35 @@ class Summer extends JPanel implements ActionListener
 	{
 		Graphics2D g = (Graphics2D)g2;
 		int[] x = {};
-		int[] y = {};
-		//Everything
-		g.setColor(n(FC));
-		g.fillRect(0,0,this.getWidth(),this.getHeight());
-		//Walls
-		g.setColor(n(WC));
+		int[] y = {};		
 		
-		g.fillRect(0,0,this.getWidth(),LY);		
-    	x = new int[] {LX, LX, this.getWidth(), this.getWidth()};
-    	y = new int[] {LY, 0, 0, (int)(LY + (DSLOPE*(this.getWidth()-LX)))};
-    	g.fillPolygon(x,y,4);
 		//Behind Window
-		g.setColor(n(Color.CYAN));
+		g.setColor(n(n(Color.CYAN)));
 		g.fillRect(WX,WY,WW,WH);
+		
+		sun.setX((int)(Star.orbitCX - Star.orbitRadius*Math.cos(Math.toRadians(thetaDeg))));
+		sun.setY((int)(Star.orbitCY - Star.orbitRadius*Math.sin(Math.toRadians(thetaDeg))));
+		moon.setX((int)(Star.orbitCX - Star.orbitRadius*Math.cos(Math.toRadians(thetaDeg-180))));
+		moon.setY((int)(Star.orbitCY - Star.orbitRadius*Math.sin(Math.toRadians(thetaDeg-180))));
 		
     	g.setColor(sun.getColor());
     	g.fillOval(sun.getX(),sun.getY(),Star.width,Star.width);
     	g.setColor(moon.getColor());
     	g.fillOval(moon.getX(),moon.getY(),Star.width,Star.width);
+		
+		g.setColor(n(WC));
+		//g.fillRect(0,0,this.getWidth(),LY);
+		x = new int[] {0,LX,LX,WX+WW,WX+WW,WX,WX,WX+WW,LX,0};
+		y = new int[] {0,0,LY,WY+WH,WY,WY,WY+WH,WY+WH,LY,LY};
+		g.fillPolygon(x,y,10);
+		
+		g.setColor(n(FC));
+		g.fillRect(0,LY,this.getWidth(),(this.getHeight()-LY));
+		
+		g.setColor(n(WC));
+    	x = new int[] {LX, LX, this.getWidth(), this.getWidth()};
+    	y = new int[] {LY, 0, 0, (int)(LY + (DSLOPE*(this.getWidth()-LX)))};
+    	g.fillPolygon(x,y,4);
 		//Window Outline
 		g.setColor(n(Color.GRAY));
 		g.setStroke(new BasicStroke(7));
@@ -410,6 +421,12 @@ class Summer extends JPanel implements ActionListener
 		{
 			isClicked = false;
 		}
+		//For all ticks
+		thetaDeg = (thetaDeg + (double)360/384);
+		if(Math.abs(thetaDeg - 360) < 0.5)
+		{
+			thetaDeg = 0;
+		}
 		tick++;
 		repaint();
 	}
@@ -428,6 +445,9 @@ class Summer extends JPanel implements ActionListener
 		private int x;
 		private int y;
 		public static final int width = 80;
+		public static final int orbitCX = 400;
+		public static final int orbitCY = 400;
+		public static final int orbitRadius = 500;
 		public Star(int x, int y, Color c)
 		{
 			this.x = x;

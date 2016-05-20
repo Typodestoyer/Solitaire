@@ -48,14 +48,4 @@
 			<active>true</active>
 		</docitem>
 	</open_files>
-	<symboltables>
-		<symboltable>
-			<path>SummerScene\src\SummerScene.java.sdk</path>
-			<symbols>
-				<symbol>Star</symbol>
-				<symbol>Summer</symbol>
-				<symbol>SummerScene</symbol>
-			</symbols>
-		</symboltable>
-	</symboltables>
 </workspace_user>
