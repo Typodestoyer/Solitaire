@@ -1,20 +1,127 @@
+import java.util.*;
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
 import java.awt.event.*;
-public class SummerScene
+public class SummerScene extends KeyAdapter
 {
-	public static void main (String[] args)
+	String line;
+	JFrame frame;
+	ComputerScreen s;
+	public SummerScene()
 	{
-		JFrame frame = new JFrame();
+		frame = new JFrame();
     	frame.setTitle("My Summer Scene");
     	frame.setSize(700, 600);
     	frame.setPreferredSize(new Dimension(700, 600));
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	
-    	Summer s = new Summer ();
+    	frame.addKeyListener(this);
+    	frame.addMouseListener(new MouseTracker());
+    	
+    	s = new ComputerScreen();
     	frame.add(s);
     	frame.setVisible(true);
+    	
+    	s.newLine();
+    	line = "";
+	}
+	
+	public void keyTyped(KeyEvent e)
+	{
+		line += e.getKeyChar();
+		s.setCurrentLine(line);
+		if(e.getKeyChar() == '\n')
+		{
+			s.newLine();
+			line = "";
+		}
+		s.displayTerminal();
+		s.repaint();
+		frame.repaint();
+	}
+	
+	public static void main (String[] args)
+	{
+		SummerScene s = new SummerScene();
+	}
+}
+
+
+class ComputerScreen extends JPanel
+{
+	ArrayList<JLabel> visTextLines = new ArrayList<JLabel>();
+	ArrayList<String> textLines = new ArrayList<String>();
+	public ComputerScreen()
+	{
+		setBackground(Color.BLACK);
+	}
+	protected void paintComponent(Graphics g)
+	{
+		for(JLabel jl : visTextLines)
+		{
+			jl.setForeground(Color.WHITE);
+		}
+	}
+	public void setCurrentLine(String line)
+	{
+		textLines.set(textLines.size()-1,line);
+	}
+	public void newLine()
+	{
+		textLines.add("");
+	}
+	public void displayTerminal()
+	{
+		clearScreen();
+		for(String s : textLines)
+		{
+			System.out.println("> " + s);
+		}
+	}
+	public void clearScreen()
+	{  
+		for(int i = 0; i < 15; i ++)
+		{
+			System.out.println();
+		}  
+	}  
+}
+
+class MouseTracker implements MouseListener
+{
+	public void mouseExited(MouseEvent e)
+	{
+		
+	}
+	public void mouseEntered(MouseEvent e)
+	{
+		
+	}
+	public void mouseClicked(MouseEvent e)
+	{
+		
+	}
+	public void mousePressed(MouseEvent e)
+	{
+		
+	}
+	public void mouseReleased(MouseEvent e)
+	{
+		
+	}
+}
+
+class Terminal extends KeyAdapter
+{
+	String line;
+	public void keyTyped(KeyEvent e)
+	{
+		line += e.getKeyChar();
+	}
+	public void getLine()
+	{
+		
 	}
 }
 
@@ -186,7 +293,7 @@ class Summer extends JPanel implements ActionListener
 	//Timekeeping
 	private int hour = 12;
 	private int tick = 0;
-	private Timer t;
+	private javax.swing.Timer t;
 	private boolean armForward = false;
 	
 	//ANIMATION VARIABLES	
@@ -200,7 +307,7 @@ class Summer extends JPanel implements ActionListener
 	
 	public Summer()
 	{
-		t = new Timer(25,this);
+		t = new javax.swing.Timer(25,this);
 		t.setInitialDelay(200);
 		t.start();
 		sun = new Star(0,0,SSC);
