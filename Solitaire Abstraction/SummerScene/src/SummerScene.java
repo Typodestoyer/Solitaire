@@ -318,7 +318,7 @@ class Summer extends JPanel implements ActionListener
     	rectPrism(g,PARX,PTY+PTSY,PTW,(PARY-PTY-PTSY)+PARH,PARSX,PARSY,PC,d(PC),b(PC));							//PERSON'S RIGHT SHOULDER
     	
     	rectPrism(g,CMX,CMY,CMW,CMH,CMSX,CMSY,CMC,d(CMC),b(CMC));
-    	g.setColor(n(CSC));
+    	g.setColor(CSC);
     	g.fillPolygon(new int[]{CMX + CMGX, CMX + CMSX - CMGX, CMX + CMSX - CMGX, CMX + CMGX}, new int[]{CMY + CMGY + (int)(DSLOPE * CMGX), CMY + CMSY + CMGY - (int)(DSLOPE * CMGX), CMY + CMSY + CMH - CMGY - (int)(DSLOPE * CMGX), CMY + CMH - CMGY + (int)(DSLOPE * CMGX)}, 4);
     	
 	}
