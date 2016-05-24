@@ -74,8 +74,6 @@ public class ComputerScreen extends JPanel
 	public void newLine()
 	{
 		processCurrentLine();
-		addNewLine("",false);
-		addNewLine("",true);
 		while(textLines.size() * TEXT_HEIGHT >= this.getHeight())
 		{
 			removeFirstLine();
@@ -107,16 +105,25 @@ public class ComputerScreen extends JPanel
 	public void processCurrentLine()
 	{
 		String line = textLines.get(textLines.size()-1);
+		if(line.equals(""))
+		{
+			addNewLine("",true);
+			return;
+		}
 		for(int i = 0; i < commands.size(); i ++)
 		{
 			if(commands.get(i).calls().contains(line))
 			{
 				addNewLine(commands.get(i).response, false);
 				evalInput(i);
+				addNewLine("",false);
+				addNewLine("",true);
 				return;
 			}
 		}
 		addNewLine("Unknown command.", false);
+		addNewLine("",false);
+		addNewLine("",true);
 	}
 	
 	private void createNewResponses()
