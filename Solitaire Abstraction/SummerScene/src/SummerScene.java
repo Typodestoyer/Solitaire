@@ -5,9 +5,17 @@ import javax.swing.*;
 import java.awt.event.*;
 public class SummerScene extends KeyAdapter
 {
+	public enum Scene
+	{
+		SUMMER, SCREEN
+	}
+	
 	String line;
 	JFrame frame;
-	ComputerScreen s;
+	ComputerScreen screen;
+	Summer summer;
+	Scene s = Scene.SUMMER;
+	
 	public SummerScene()
 	{
 		frame = new JFrame();
@@ -15,29 +23,70 @@ public class SummerScene extends KeyAdapter
     	frame.setSize(700, 600);
     	frame.setPreferredSize(new Dimension(700, 600));
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	
     	frame.addKeyListener(this);
     	frame.addMouseListener(new MouseTracker());
+    	screen = new ComputerScreen();
+    	summer = new Summer();
     	
-    	s = new ComputerScreen();
-    	frame.add(s);
+    	frame.getContentPane().add(summer);
     	frame.setVisible(true);
+    	mimicSwitch();
+    	
+	}
+	
+	public void mimicSwitch()
+	{
+		/*
+		s = Scene.SCREEN;
+		frame.remove(summer);
+		frame.add(screen);
+		frame.repaint();
+		screen.repaint();
+		
+		screen.addToCurrentLine(' ');
+		screen.backspaceCurrentLine();
+		
+		s = Scene.SUMMER;
+		frame.remove(screen);
+		frame.add(summer);
+		frame.repaint();
+		summer.repaint();
+		*/
 	}
 	
 	public void keyTyped(KeyEvent e)
 	{
-		if(e.getKeyChar() == '\b')
+		if(s == Scene.SUMMER)
 		{
-			s.backspaceCurrentLine();
+			if(e.getKeyChar() == 'c')
+			{
+				s = Scene.SCREEN;
+				frame.getContentPane().removeAll();
+				frame.add(screen);
+				frame.repaint();
+				screen.repaint();
+			}
+		}
+		else if(e.getKeyChar() == '\b')
+		{
+			screen.backspaceCurrentLine();
 		}
 		else if((int)e.getKeyChar() == KeyEvent.VK_ESCAPE)
 		{
-			//exit computer screen
+			if(s == Scene.SCREEN)
+			{
+				s = Scene.SUMMER;
+				frame.getContentPane().removeAll();
+				frame.getContentPane().add(summer);
+				frame.repaint();
+				summer.repaint();
+			}
 		}
 		else
 		{
-			s.addToCurrentLine(e.getKeyChar());
+			screen.addToCurrentLine(e.getKeyChar());
 		}
+		frame.validate();
 	}
 	
 	public static void main (String[] args)
@@ -53,35 +102,48 @@ class ComputerScreen extends JPanel
 	ArrayList<String> textLines = new ArrayList<String>();
 	public ComputerScreen()
 	{
+		setLayout(null);
 		setBackground(Color.BLACK);
 		setOpaque(true);
-		addNewLine("",true);
+		addNewLine("", true);
 	}
 	protected void paintComponent(Graphics g)
 	{
 		g.setColor(Color.BLACK);
 		g.fillRect(0,0,this.getWidth(),this.getHeight());
-		consoleDisplay();
+		for(int i = 0; i < visTextLines.size(); i ++)
+		{
+			JLabel jl = visTextLines.get(i);
+			jl.setBounds(0,20*i,this.getWidth(),20);
+		}
+		//consoleDisplay();
+		//bug testing
 		
 	}
 	public void backspaceCurrentLine()
 	{
 		if(!textLines.get(textLines.size()-1).equals(""))
 		{
-			setLine(textLines.size()-1,textLines.get(textLines.size()-1).substring(textLines.get(textLines.size()-1).length()-1),true);
-			repaint();
+			setLine(textLines.size()-1,textLines.get(textLines.size()-1).substring(0,textLines.get(textLines.size()-1).length()-1),true);
 		}
+		repaint();
 	}
 	
+	public void paintThis()
+	{
+		repaint();
+	}
+	/*---------------------------------FOR DEBUGGING-------------------------------------
 	public void consoleDisplay()
 	{
-		System.out.println("-----" + textLines.size());
-		for(String s : textLines)
+		System.out.println("-----" + textLines.size() + " " + visTextLines.size());
+		for (int i = 0; i < visTextLines.size(); i ++)
 		{
-			System.out.println(s);
+			JLabel jl = visTextLines.get(i);
+			System.out.println(i + ": " + jl.getText());
 		}
 	}
-	
+	-----------------------------------------------------------------------------------*/
 	public void addToCurrentLine(char c)
 	{
 		if(c == '\n')
@@ -93,13 +155,12 @@ class ComputerScreen extends JPanel
 		{
 			setLine(textLines.size()-1,textLines.get(textLines.size()-1) + c,true);
 		}
-		
 		repaint();
 	}
 	public void newLine()
 	{
 		processCurrentLine();
-		textLines.add("");
+		addNewLine("",true);
 	}
 	public void clearScreen()
 	{  
@@ -111,14 +172,15 @@ class ComputerScreen extends JPanel
 	public void setLine(int index, String line, boolean user)
 	{
 		textLines.set(index, line);
-		visTextLines.get(index).setText(line);
+		visTextLines.get(index).setText((user ? "> " : "") + line);
+		//System.out.println(index + " " + line + " " + visTextLines.get(index).getText());
 	}
 	public void addNewLine(String line, boolean user)
 	{
 		textLines.add(line);
 		visTextLines.add(new JLabel(user ? "> " : "" + line));
 		JLabel jl = visTextLines.get(visTextLines.size()-1);
-		jl.setBounds(0,12+20*(visTextLines.size()-1),this.getWidth(),20);
+		jl.setBounds(0,20*(visTextLines.size()-1),this.getWidth(),20);
 		jl.setForeground(Color.WHITE);
 		jl.setVisible(true);
 		this.add(jl);
@@ -130,8 +192,18 @@ class ComputerScreen extends JPanel
 		{
 			case "Ping":
 			case "ping":
-				addNewLine("Pong", false);
-				
+				addNewLine("Pong!", false);
+				break;
+			case "What is love?":
+				addNewLine("Baby, don't hurt me.", false);
+				break;
+			case "Hi!":
+			case "hi":
+			case "Hi":
+			case "Hello":
+			case "Hello!":
+			case "hello":
+				addNewLine("Hi, how are you?", false);
 				break;
 			default:
 				addNewLine("Unknown command.", false);
@@ -158,19 +230,6 @@ class MouseTracker implements MouseListener
 		
 	}
 	public void mouseReleased(MouseEvent e)
-	{
-		
-	}
-}
-
-class Terminal extends KeyAdapter
-{
-	String line;
-	public void keyTyped(KeyEvent e)
-	{
-		line += e.getKeyChar();
-	}
-	public void getLine()
 	{
 		
 	}
