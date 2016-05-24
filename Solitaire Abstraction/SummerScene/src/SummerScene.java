@@ -22,23 +22,22 @@ public class SummerScene extends KeyAdapter
     	s = new ComputerScreen();
     	frame.add(s);
     	frame.setVisible(true);
-    	
-    	s.newLine();
-    	line = "";
 	}
 	
 	public void keyTyped(KeyEvent e)
 	{
-		line += e.getKeyChar();
-		s.setCurrentLine(line);
-		if(e.getKeyChar() == '\n')
+		if(e.getKeyChar() == '\b')
 		{
-			s.newLine();
-			line = "";
+			s.backspaceCurrentLine();
 		}
-		s.displayTerminal();
-		s.repaint();
-		frame.repaint();
+		else if((int)e.getKeyChar() == KeyEvent.VK_ESCAPE)
+		{
+			//exit computer screen
+		}
+		else
+		{
+			s.addToCurrentLine(e.getKeyChar());
+		}
 	}
 	
 	public static void main (String[] args)
@@ -55,37 +54,89 @@ class ComputerScreen extends JPanel
 	public ComputerScreen()
 	{
 		setBackground(Color.BLACK);
+		setOpaque(true);
+		addNewLine("",true);
 	}
 	protected void paintComponent(Graphics g)
 	{
-		for(JLabel jl : visTextLines)
+		g.setColor(Color.BLACK);
+		g.fillRect(0,0,this.getWidth(),this.getHeight());
+		consoleDisplay();
+		
+	}
+	public void backspaceCurrentLine()
+	{
+		if(!textLines.get(textLines.size()-1).equals(""))
 		{
-			jl.setForeground(Color.WHITE);
+			setLine(textLines.size()-1,textLines.get(textLines.size()-1).substring(textLines.get(textLines.size()-1).length()-1),true);
+			repaint();
 		}
 	}
-	public void setCurrentLine(String line)
+	
+	public void consoleDisplay()
 	{
-		textLines.set(textLines.size()-1,line);
+		System.out.println("-----" + textLines.size());
+		for(String s : textLines)
+		{
+			System.out.println(s);
+		}
+	}
+	
+	public void addToCurrentLine(char c)
+	{
+		if(c == '\n')
+		{
+			newLine();
+			
+		}
+		else
+		{
+			setLine(textLines.size()-1,textLines.get(textLines.size()-1) + c,true);
+		}
+		
+		repaint();
 	}
 	public void newLine()
 	{
+		processCurrentLine();
 		textLines.add("");
-	}
-	public void displayTerminal()
-	{
-		clearScreen();
-		for(String s : textLines)
-		{
-			System.out.println("> " + s);
-		}
 	}
 	public void clearScreen()
 	{  
 		for(int i = 0; i < 15; i ++)
 		{
 			System.out.println();
-		}  
-	}  
+		}
+	}
+	public void setLine(int index, String line, boolean user)
+	{
+		textLines.set(index, line);
+		visTextLines.get(index).setText(line);
+	}
+	public void addNewLine(String line, boolean user)
+	{
+		textLines.add(line);
+		visTextLines.add(new JLabel(user ? "> " : "" + line));
+		JLabel jl = visTextLines.get(visTextLines.size()-1);
+		jl.setBounds(0,12+20*(visTextLines.size()-1),this.getWidth(),20);
+		jl.setForeground(Color.WHITE);
+		jl.setVisible(true);
+		this.add(jl);
+	}
+	public void processCurrentLine()
+	{
+		String line = textLines.get(textLines.size()-1);
+		switch(line)
+		{
+			case "Ping":
+			case "ping":
+				addNewLine("Pong", false);
+				
+				break;
+			default:
+				addNewLine("Unknown command.", false);
+		}
+	}
 }
 
 class MouseTracker implements MouseListener
