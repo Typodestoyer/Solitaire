@@ -2,7 +2,7 @@
 
 <project>
 	<settings>
-		<label>SummerScene</label>
+		<label>FontTester</label>
 		<root_path>\</root_path>
 		<output_path>classes\</output_path>
 		<source_path>src\</source_path>
@@ -19,7 +19,7 @@
 			<applet_ref/>
 			<debugger_ref/>
 			<param/>
-			<run>SummerScene</run>
+			<run/>
 			<verify>true</verify>
 		</runtime>
 	</runtimes>
@@ -30,23 +30,7 @@
 				<path>src</path>
 			</folderitem>
 			<fileitem>
-				<path>src\Command.java</path>
-				<folder>src</folder>
-			</fileitem>
-			<fileitem>
-				<path>src\ComputerScreen.java</path>
-				<folder>src</folder>
-			</fileitem>
-			<fileitem>
-				<path>src\Star.java</path>
-				<folder>src</folder>
-			</fileitem>
-			<fileitem>
-				<path>src\Summer.java</path>
-				<folder>src</folder>
-			</fileitem>
-			<fileitem>
-				<path>src\SummerScene.java</path>
+				<path>src\FontTester.java</path>
 				<folder>src</folder>
 			</fileitem>
 		</include>

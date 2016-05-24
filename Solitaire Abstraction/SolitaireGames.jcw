@@ -3,6 +3,8 @@
 <workspace>
 	<settings>
 		<label>SolitaireGames</label>
+		<id>115</id>
+		<version>0</version>
 	</settings>
 	<users>
 		<user>
@@ -10,6 +12,9 @@
 		</user>
 	</users>
 	<projects>
+		<project>
+			<path>FontTester\FontTester.jcp</path>
+		</project>
 		<project>
 			<path>KlondikeSolitaire\KlondikeSolitaire.jcp</path>
 		</project>

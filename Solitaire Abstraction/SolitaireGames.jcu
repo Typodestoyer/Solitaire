@@ -2,9 +2,21 @@
 
 <workspace_user>
 	<active_project>
-		<label>SummerScene</label>
+		<label>FontTester</label>
 	</active_project>
 	<projects>
+		<project>
+			<label>FontTester</label>
+			<showfiles>false</showfiles>
+			<folderitem>
+				<path>FontTester\classes</path>
+				<dir>classes</dir>
+			</folderitem>
+			<folderitem>
+				<path>FontTester\src</path>
+				<dir>src</dir>
+			</folderitem>
+		</project>
 		<project>
 			<label>KlondikeSolitaire</label>
 			<showfiles>false</showfiles>
@@ -15,10 +27,14 @@
 		</project>
 		<project>
 			<label>SummerScene</label>
-			<showfiles>false</showfiles>
+			<showfiles>true</showfiles>
 			<folderitem>
 				<path>SummerScene\src</path>
 				<dir>src</dir>
+			</folderitem>
+			<folderitem>
+				<path>SummerScene\classes</path>
+				<dir>classes</dir>
 			</folderitem>
 		</project>
 	</projects>
@@ -45,7 +61,85 @@
 			<path>SummerScene\src\SummerScene.java</path>
 			<source>true</source>
 			<index>3</index>
+			<active>false</active>
+		</docitem>
+		<docitem>
+			<path>SummerScene\src\Summer.java</path>
+			<source>true</source>
+			<index>4</index>
+			<active>false</active>
+		</docitem>
+		<docitem>
+			<path>SummerScene\src\ComputerScreen.java</path>
+			<source>true</source>
+			<index>5</index>
 			<active>true</active>
 		</docitem>
+		<docitem>
+			<path>SummerScene\src\Star.java</path>
+			<source>true</source>
+			<index>6</index>
+			<active>false</active>
+		</docitem>
+		<docitem>
+			<path>SummerScene\src\Command.java</path>
+			<source>true</source>
+			<index>7</index>
+			<active>false</active>
+		</docitem>
 	</open_files>
+	<symboltables>
+		<symboltable>
+			<path>KlondikeSolitaire\src\KlondikeSolitaire.java.sdk</path>
+			<symbols>
+				<symbol>KlondikeSolitaire</symbol>
+				<symbol>SolitaireWindow</symbol>
+			</symbols>
+		</symboltable>
+		<symboltable>
+			<path>KlondikeSolitaire\src\SolitaireWindow.java.sdk</path>
+			<symbols>
+				<symbol>AlternatingCardPile</symbol>
+				<symbol>MyKeyListener</symbol>
+				<symbol>MyMouseListener</symbol>
+				<symbol>SolitaireGame</symbol>
+				<symbol>SolitaireWindow</symbol>
+			</symbols>
+		</symboltable>
+		<symboltable>
+			<path>SummerScene\src\SummerScene.java.sdk</path>
+			<symbols>
+				<symbol>ComputerScreen</symbol>
+				<symbol>Scene</symbol>
+				<symbol>Summer</symbol>
+				<symbol>SummerScene</symbol>
+			</symbols>
+		</symboltable>
+		<symboltable>
+			<path>SummerScene\src\Star.java.sdk</path>
+			<symbols>
+				<symbol>Star</symbol>
+			</symbols>
+		</symboltable>
+		<symboltable>
+			<path>SummerScene\src\Summer.java.sdk</path>
+			<symbols>
+				<symbol>Star</symbol>
+				<symbol>Summer</symbol>
+			</symbols>
+		</symboltable>
+		<symboltable>
+			<path>SummerScene\src\Command.java.sdk</path>
+			<symbols>
+				<symbol>Command</symbol>
+			</symbols>
+		</symboltable>
+		<symboltable>
+			<path>SummerScene\src\ComputerScreen.java.sdk</path>
+			<symbols>
+				<symbol>Command</symbol>
+				<symbol>ComputerScreen</symbol>
+			</symbols>
+		</symboltable>
+	</symboltables>
 </workspace_user>
