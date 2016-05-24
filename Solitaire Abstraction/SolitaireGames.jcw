@@ -3,7 +3,11 @@
 <workspace>
 	<settings>
 		<label>SolitaireGames</label>
+<<<<<<< HEAD
 		<id>115</id>
+=======
+		<id>80</id>
+>>>>>>> 22c02c5503bf8e389ac5d78838ae672b56bd38ab
 		<version>0</version>
 	</settings>
 	<users>

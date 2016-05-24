@@ -10,7 +10,6 @@ public class ComputerScreen extends JPanel
 	ArrayList<JLabel> visTextLines = new ArrayList<JLabel>();
 	ArrayList<String> textLines = new ArrayList<String>();
 	ArrayList<Command> commands = new ArrayList<Command>();
-	
 	public ComputerScreen()
 	{
 		setLayout(null);
@@ -41,6 +40,11 @@ public class ComputerScreen extends JPanel
 		{
 			setLine(textLines.size()-1,textLines.get(textLines.size()-1).substring(0,textLines.get(textLines.size()-1).length()-1),true);
 		}
+		repaint();
+	}
+	
+	public void paintThis()
+	{
 		repaint();
 	}
 	/*---------------------------------FOR DEBUGGING-------------------------------------

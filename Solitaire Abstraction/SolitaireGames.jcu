@@ -73,6 +73,15 @@
 			<path>SummerScene\src\ComputerScreen.java</path>
 			<source>true</source>
 			<index>5</index>
+<<<<<<< HEAD
+=======
+			<active>false</active>
+		</docitem>
+		<docitem>
+			<path>SummerScene\src\Star.java</path>
+			<source>true</source>
+			<index>6</index>
+>>>>>>> 22c02c5503bf8e389ac5d78838ae672b56bd38ab
 			<active>true</active>
 		</docitem>
 		<docitem>
@@ -116,12 +125,15 @@
 			</symbols>
 		</symboltable>
 		<symboltable>
+<<<<<<< HEAD
 			<path>SummerScene\src\Star.java.sdk</path>
 			<symbols>
 				<symbol>Star</symbol>
 			</symbols>
 		</symboltable>
 		<symboltable>
+=======
+>>>>>>> 22c02c5503bf8e389ac5d78838ae672b56bd38ab
 			<path>SummerScene\src\Summer.java.sdk</path>
 			<symbols>
 				<symbol>Star</symbol>
@@ -129,6 +141,7 @@
 			</symbols>
 		</symboltable>
 		<symboltable>
+<<<<<<< HEAD
 			<path>SummerScene\src\Command.java.sdk</path>
 			<symbols>
 				<symbol>Command</symbol>
@@ -139,6 +152,17 @@
 			<symbols>
 				<symbol>Command</symbol>
 				<symbol>ComputerScreen</symbol>
+=======
+			<path>SummerScene\src\ComputerScreen.java.sdk</path>
+			<symbols>
+				<symbol>ComputerScreen</symbol>
+			</symbols>
+		</symboltable>
+		<symboltable>
+			<path>SummerScene\src\Star.java.sdk</path>
+			<symbols>
+				<symbol>Star</symbol>
+>>>>>>> 22c02c5503bf8e389ac5d78838ae672b56bd38ab
 			</symbols>
 		</symboltable>
 	</symboltables>

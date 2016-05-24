@@ -30,10 +30,13 @@
 				<path>src</path>
 			</folderitem>
 			<fileitem>
+<<<<<<< HEAD
 				<path>src\Command.java</path>
 				<folder>src</folder>
 			</fileitem>
 			<fileitem>
+=======
+>>>>>>> 22c02c5503bf8e389ac5d78838ae672b56bd38ab
 				<path>src\ComputerScreen.java</path>
 				<folder>src</folder>
 			</fileitem>
