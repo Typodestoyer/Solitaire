@@ -30,6 +30,18 @@
 				<path>src</path>
 			</folderitem>
 			<fileitem>
+				<path>src\ComputerScreen.java</path>
+				<folder>src</folder>
+			</fileitem>
+			<fileitem>
+				<path>src\Star.java</path>
+				<folder>src</folder>
+			</fileitem>
+			<fileitem>
+				<path>src\Summer.java</path>
+				<folder>src</folder>
+			</fileitem>
+			<fileitem>
 				<path>src\SummerScene.java</path>
 				<folder>src</folder>
 			</fileitem>
